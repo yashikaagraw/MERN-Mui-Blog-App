@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Badge from '@mui/material/Badge';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-
+import Drawer from './Drawer';
 export default function Header() {
   const appBarStyle = {
     backgroundColor: '#000',
@@ -20,6 +20,7 @@ export default function Header() {
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" sx={appBarStyle}>
         <Toolbar>
+          <Drawer>
           <IconButton
             size="large"
             edge="start"
@@ -29,6 +30,7 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
+          </Drawer>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Blogging App
           </Typography>
