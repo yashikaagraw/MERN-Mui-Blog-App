@@ -1,136 +1,70 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import React from 'react';
+import { AppBar, Toolbar, IconButton, Typography, Button, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import img from "./logo.png";
-import { useMediaQuery } from '@mui/material';
 
 
+function Navbar() {
+  // State for mobile menu
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const theme = useTheme();
+const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-
-const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Resources', 'Contact', 'Login', 'Get started'];
-
-function DrawerAppBar(props) {
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const isSmallScreen = useMediaQuery('(max-width:600px)');
-
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2, color: '#000' }}>
-        logo
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar component="nav" sx={{ backgroundColor: 'white' }}>
-        <Toolbar
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-          }}
-        >
-          {isSmallScreen &&(
+    <AppBar position="static" style={{ backgroundColor: 'white', color: 'blue' }}>
+      <Toolbar>
+        {isMobile ? (
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
+            color="inherit"
+            aria-label="menu"
+            onClick={handleClick}
           >
             <MenuIcon />
           </IconButton>
-          )}
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ my: 2, color: '#000' }}
-          
-          >
-             <Typography variant="h4" sx={{ fontSize: '28px', fontWeight: 'bold' }}>
-            <img src={img} alt="" style={{marginRight: '10px'}}/>
-            logo
-            </Typography>
-          </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} 
-              sx={{
-                color: item === 'Get started' ? 'black' : 'blue',
-              }}
-              //variant={item === 'Login' ? 'outlined' : 'contained'}
-            >
-                {item}
-              </Button>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <nav>
-        <Drawer
-          container={container}
-          variant={isSmallScreen ? "temporary" : "permanent" }
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
+        ) : null}
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <img src={img} alt="" style={{ marginRight: '10px'}}/>
+          logo
+        </Typography>
+        {isMobile ? null : (
+          <>
+            <Button color="inherit">Home</Button>
+            <Button color="inherit">About</Button>
+            <Button color="inherit">Resources</Button>
+            <Button color="inherit">Contact</Button>
+            <Button variant="outlined" color="inherit">Login</Button>
+            <Button variant="contained" color="primary" style={{ color: 'black' }}>Get started</Button>
+          </>
+        )}
+      </Toolbar>
+      {isMobile && (
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
         >
-          {drawer}
-        </Drawer>
-      </nav>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-        
-      </Box>
-    </Box>
+          <MenuItem onClick={handleClose}>Home</MenuItem>
+          <MenuItem onClick={handleClose}>About</MenuItem>
+          <MenuItem onClick={handleClose}>Resources</MenuItem>
+          <MenuItem onClick={handleClose}>Contact</MenuItem>
+          <MenuItem variant="outlined" onClick={handleClose}>Login</MenuItem>
+          <MenuItem variant="contained" onClick={handleClose}>Get started</MenuItem>
+        </Menu>
+      )}
+    </AppBar>
   );
 }
 
-DrawerAppBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
-
-export default DrawerAppBar;
+export default Navbar;

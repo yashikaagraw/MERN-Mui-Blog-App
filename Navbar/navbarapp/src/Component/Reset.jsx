@@ -26,12 +26,19 @@ const ResetPassword = () => {
     <Container maxWidth="sm">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 12,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
         }}
       >
+         <Box
+          sx={{
+            boxShadow: 3, // Add shadow effect
+            padding: 2, // Add padding for spacing
+          }}
+        >
+        
         <Card>
             <CardContent>
         <Typography component="h1" variant="h7">
@@ -90,6 +97,8 @@ const ResetPassword = () => {
         </CardContent>
         </Card>
       </Box>
+      </Box>
+      
     </Container>
   );
 };
